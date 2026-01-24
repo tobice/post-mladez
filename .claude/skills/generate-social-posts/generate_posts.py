@@ -3,11 +3,11 @@
 Generate social media posts from meeting schedule JSON.
 
 Usage (from project root):
-    python .claude/skills/generate_posts.py
+    python .claude/skills/generate-social-posts/generate_posts.py
 
 Requires:
     - data/program.json (meeting data)
-    - .claude/skills/post-template.pptx (PowerPoint template)
+    - .claude/skills/generate-social-posts/post-template.pptx (PowerPoint template)
     - python-pptx, libreoffice, pdftoppm, imagemagick
 """
 
@@ -20,7 +20,7 @@ import os
 
 # Get the directory where this script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.dirname(os.path.dirname(SCRIPT_DIR))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(SCRIPT_DIR)))
 
 # Configuration
 TEMPLATE_PATH = os.path.join(SCRIPT_DIR, 'post-template.pptx')

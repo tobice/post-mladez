@@ -28,34 +28,42 @@ Extract all meetings from the PDF into a JSON structure. Each meeting has:
 - **speaker**: Speaker name, or `null` if none (e.g., film screenings)
 - **description**: Full description text
 
-**Important:** Use proper Czech quotation marks in the JSON:
-- Opening quote: `„` (U+201E)
-- Closing quote: `"` (U+201C)
+**Important - Czech Quotation Marks:** The descriptions often contain Czech quotation marks (`„` and `“`). These characters look similar to ASCII double quotes and will break JSON parsing if written directly. **Always use Python to generate the JSON file** with `json.dump()`:
 
-Save to `data/program.json`:
+```python
+import json
 
-```json
-{
-  "month": "únor",
-  "year": 2026,
-  "meetings": [
-    {
-      "date": "2026-02-05",
-      "location": "u Salvátora",
-      "title": "Meeting Title",
-      "speaker": "Speaker Name",
-      "description": "Description with „proper quotes"..."
-    }
-  ]
+# Use Unicode escapes for Czech quotes in strings:
+# Opening: \u201e for „
+# Closing: \u201c for "
+desc = "Zpíváme \u201ejeden Pán, jedna víra\u201c..."
+
+data = {
+    "month": "únor",
+    "year": 2026,
+    "meetings": [
+        {
+            "date": "2026-02-05",
+            "location": "u Salvátora",
+            "title": "Meeting Title",
+            "speaker": "Speaker Name",  # or None for no speaker
+            "description": desc
+        }
+    ]
 }
+
+with open('data/program.json', 'w', encoding='utf-8') as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
 ```
+
+**Do NOT use the Write tool directly** for this file - the Czech quotes will corrupt the JSON.
 
 ### 2. Generate the posts
 
 Run the `generate_posts.py` script from the project root:
 
 ```bash
-python .claude/skills/generate_posts.py
+python .claude/skills/generate-social-posts/generate_posts.py
 ```
 
 This will:
