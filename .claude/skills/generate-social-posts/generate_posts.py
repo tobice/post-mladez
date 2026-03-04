@@ -50,7 +50,11 @@ def get_font_sizes(title_len, desc_len, has_speaker):
     desc_size = 13  # Base size
 
     # Adjust title size based on title length
-    if title_len > 30:
+    if title_len > 45:
+        title_size = 15
+    elif title_len > 38:
+        title_size = 17
+    elif title_len > 30:
         title_size = 19
     elif title_len > 26:
         title_size = 21
@@ -121,6 +125,8 @@ def generate_pptx(meeting, index, template_path, output_dir):
             text_frame.word_wrap = True
             for para in text_frame.paragraphs:
                 para.clear()
+                if len(title) > 30:
+                    para.line_spacing = 1.1
                 run = para.add_run()
                 run.text = title
                 run.font.name = "Adumu"
